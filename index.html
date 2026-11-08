@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BTC Sube o Baja en 5 min · Simulador</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0e11;--p:#181a20;--p2:#1e2329;--ln:#2b3139;--tx:#eaecef;--mu:#848e9c;--y:#fcd535;--g:#0ecb81;--r:#f6465d;--o:#f7931a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font:14px/1.4 "IBM Plex Sans","BinancePlex",Arial,sans-serif;min-width:1000px}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.nav{height:64px;background:var(--p);display:flex;align-items:center;padding:0 24px;gap:28px;font-weight:500}
+.logo{color:var(--y);font-weight:700;font-size:20px;letter-spacing:.5px;display:flex;align-items:center;gap:6px}
+.sim{font-size:10px;font-weight:700;border:1px solid var(--y);color:var(--y);padding:1px 6px;border-radius:4px;margin-left:8px}
+.nav span{white-space:nowrap}.sp{flex:1}
+.dep{background:var(--y);color:#181a20;font-weight:600;padding:8px 16px;border-radius:6px}
+.fav{background:var(--p);color:var(--mu);font-size:12px;padding:0 24px 10px}
+.wrap{display:grid;grid-template-columns:1fr 320px;gap:2px;background:var(--bg);border-top:2px solid var(--bg)}
+.main{background:var(--p)}.side{background:var(--p);padding:16px 18px;min-height:600px}
+.hd{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:2px solid var(--bg)}
+.ic{width:32px;height:32px;border-radius:50%;background:var(--o);color:#fff;font-weight:700;display:grid;place-items:center;font-size:15px}
+.hd h1{font-size:16px;font-weight:600}.hd small{color:var(--mu);font-size:12px}
+.st{text-align:right;font-size:14px}.st small{display:block}
+.bt{border:1px solid var(--ln);padding:6px 12px;border-radius:6px;font-size:13px}
+.mid{display:grid;grid-template-columns:1fr 372px;gap:2px;background:var(--bg)}
+.ch{background:var(--p);padding:14px 16px}
+.pr{display:flex;align-items:flex-end;gap:16px}
+.pr .l{font-size:12px;color:var(--mu)}.pr .v{font-size:24px;font-weight:600}
+.pr .sep{width:1px;height:46px;background:var(--ln)}
+.cur{color:var(--o)}.dl{font-size:12px;margin-left:6px}
+.cd{margin-left:auto;display:flex;gap:14px}.cd div{text-align:center;font-size:12px;color:var(--mu)}.cd b{display:block;font-size:24px;color:var(--tx);font-weight:600;line-height:1.1}
+canvas{width:100%;height:210px;display:block;margin-top:8px}
+.chips{display:flex;gap:8px;margin-top:14px;align-items:center}
+.chip{border:1px solid var(--ln);background:var(--p2);padding:8px 14px;border-radius:6px;font-size:14px}
+.chip.on{border-color:var(--g);color:var(--tx)}.chip i{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--g);margin-right:6px;vertical-align:middle}
+.ob{background:var(--p);padding:14px 16px;font-size:12px}
+.ob h3{font-size:14px;font-weight:600;margin-bottom:10px}
+.tg{display:flex;margin:12px 0;justify-content:space-between;align-items:center}
+.seg{display:flex;border:1px solid var(--ln);border-radius:4px;overflow:hidden}.seg button{padding:5px 10px;color:var(--mu);font-size:12px}
+.seg .on{border:1px solid var(--g);color:var(--g);background:rgba(14,203,129,.1)}
+.rw{display:grid;grid-template-columns:1fr 1fr 1fr;padding:3px 0;font-variant-numeric:tabular-nums}.rw span:nth-child(2){text-align:center}.rw span:nth-child(3){text-align:right}
+.rw.h{color:var(--mu);margin-bottom:4px}.a{color:var(--r)}.b{color:var(--g)}
+.ls{font-size:13px;font-weight:600;margin:10px 0}.ls span{margin-right:14px}.ls em{font-style:normal;font-weight:700}
+.tabs{display:flex;gap:22px;padding:12px 16px 0;border-bottom:1px solid var(--ln);font-weight:500;color:var(--mu)}
+.tabs button{padding:6px 0 10px;color:var(--mu);border-bottom:3px solid transparent}.tabs .on{color:var(--tx);border-color:var(--y)}
+.sub{display:flex;gap:6px;padding:12px 16px}.sub button{padding:5px 12px;border-radius:4px;color:var(--mu);font-size:12px}.sub .on{background:var(--p2);color:var(--tx)}
+table{width:100%;font-size:12px;border-collapse:collapse}th{color:var(--mu);font-weight:400;text-align:left;padding:10px 16px}td{padding:12px 16px;border-top:1px solid var(--ln)}
+.emp{text-align:center;color:var(--mu);padding:28px;font-size:13px}
+.side h2{font-size:16px;font-weight:600;display:flex;gap:10px;align-items:center;margin-bottom:22px}
+.bs{display:flex;gap:20px;font-size:16px;font-weight:500;align-items:center;margin-bottom:14px}
+.bs button{color:var(--mu);padding-bottom:6px;border-bottom:3px solid transparent}.bs .on{color:var(--tx);border-color:var(--y)}.bs .m{margin-left:auto;font-size:14px;color:var(--tx)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.op{background:var(--p2);border:1px solid transparent;border-radius:6px;padding:12px;text-align:left}
+.op b{display:block;font-size:15px;font-weight:600}.op small{color:var(--mu);font-size:12px}
+.op.on.s{border-color:var(--g);background:rgba(14,203,129,.08)}.op.on.j{border-color:var(--r);background:rgba(246,70,93,.08)}
+.op.on.s b{color:var(--g)}.op.on.j b{color:var(--r)}
+.inp{background:var(--p2);border-radius:6px;padding:12px;margin:12px 0}
+.inp .t{display:flex;justify-content:space-between;color:var(--mu);font-size:12px}
+.inp input{background:none;border:0;outline:0;color:var(--tx);font:600 20px "IBM Plex Sans",Arial;width:100%;margin:6px 0 10px}
+.qk{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.qk button{background:var(--ln);border-radius:4px;padding:6px 0;font-weight:500}
+.row{display:flex;justify-content:space-between;color:var(--mu);font-size:12px;margin:10px 0}.row b{color:var(--tx);font-weight:500}
+.go{width:100%;padding:14px;border-radius:6px;font-size:16px;font-weight:600;color:#fff;margin-top:12px}
+.go.g{background:var(--g)}.go.r{background:var(--r)}.go:disabled{opacity:.35;cursor:not-allowed}
+.foot{display:flex;justify-content:space-between;font-size:12px;margin-top:14px}
+.wn{display:none;background:rgba(246,70,93,.12);color:var(--r);padding:8px 24px;font-size:12px}
+</style></head><body>
+<div class="nav"><div class="logo">◆ BINANCE<span class="sim">SIMULADOR</span></div>
+<span>Comprar criptos</span><span>CORONA BAÑATE</span><span>Trading ⌄</span><span>Futuros ⌄</span><span>Earn ⌄</span><span>Square ⌄</span><span>Institucional ⌄</span><span>CORONA ROBA WIFI EN UN ARBOL⌄</span>
+<div class="sp"></div><button class="dep" id="rst">Reiniciar saldo</button></div>
+<div class="fav">☆ &nbsp;Haz clic en la estrella de cualquier tarjeta de mercado para añadirla a favoritos. · Dinero ficticio, precio real.</div>
+<div class="wn" id="wn">Sin conexión con Binance: abre este archivo desde tu PC o hosting (no desde la vista previa del chat).</div>
+<div class="wrap"><div class="main">
+ <div class="hd"><span style="font-size:20px;color:var(--mu)">←</span><div class="ic">₿</div><div><h1>BTC Sube o Baja en 5 min</h1><small id="fin">Finalizar: --</small></div>
+  <div class="sp"></div><div class="st"><span>1,02M $</span><small style="color:var(--mu);font-size:11px">Volumen de trading</small></div><div class="st" style="margin:0 8px"><span>19,8K $</span><small style="color:var(--mu);font-size:11px">Liquidez</small></div><button class="bt">Reglas</button><button class="bt">✦ IA</button><button class="bt">☆</button></div>
+ <div class="mid"><div class="ch">
+  <div class="pr"><div><div class="l">Precio que superar</div><div class="v" id="tg">--</div></div><div class="sep"></div>
+   <div><div class="l">Precio actual <span class="dl" id="dl"></span></div><div class="v cur" id="cp">--</div></div>
+   <div class="cd"><div><b id="cm">00</b>min</div><div><b id="cs">00</b>s</div></div></div>
+  <canvas id="cv"></canvas>
+  <div class="chips"><button class="chip" id="past">Pasado ▾</button><span id="chips" style="display:contents"></span><button class="chip">Más ▾</button></div>
+ </div>
+ <div class="ob"><h3>Libro de órdenes</h3>
+  <div class="tg"><span style="color:var(--mu)">▦ ⌄ &nbsp; 0,01 ⌄</span><div class="seg"><button class="on" id="osu">Operar Sube</button><button id="oba">Operar Baja</button></div></div>
+  <div class="rw h"><span>Precio (USDT)</span><span>Compartir</span><span>Importe (USDT)</span></div>
+  <div id="asks"></div><div class="ls"><span>Último: <em id="last">--</em> USDT</span><span>Spread: <em id="spr">--</em> USDT</span></div><div id="bids"></div>
+ </div></div>
+ <div class="tabs" id="tabs"><button class="on" data-t="pos">Posiciones</button><button data-t="act">Actividad</button><button data-t="tit">Titulares</button><button data-t="cer">Cerrada</button><button data-t="oo">Órdenes abiertas</button><button data-t="his">Historial de órdenes</button></div>
+ <div class="sub" id="sub" style="display:none"><button class="on" data-f="all">Todo</button><button data-f="w">Ganancias</button><button data-f="l">Pérdidas</button><button data-f="c">Reclamación pendiente</button></div>
+ <div id="tb"></div>
+</div>
+<div class="side"><h2><span class="ic" style="width:30px;height:30px;font-size:13px">₿</span><span id="ttl">Bitcoin Sube o Baja</span></h2>
+ <div class="bs"><button class="on" id="bb">Comprar</button><button id="bsl">Vender</button><span class="m">Mercado ⌄</span></div>
+ <div class="two"><button class="op s on" id="osu2"><b>Sube</b><small>Precio: <span id="ps">--</span> USDT</small></button><button class="op j" id="oba2"><b>Baja</b><small>Precio: <span id="pj">--</span> USDT</small></button></div>
+ <div class="inp"><div class="t"><span id="il">Importe en USDT</span><span id="wl">Para ganar</span></div><input id="am" type="number" min="0" placeholder="0"><div class="t" style="margin:-2px 0 10px;font-size:14px;color:var(--tx)"><span></span><span id="wv">--</span></div>
+  <div class="qk" id="qk"></div></div>
+ <div class="row"><span id="al">Saldo disponible</span><b id="av">--</b></div>
+ <button class="go g" id="go" disabled>Comprar Sube</button>
+ <div class="foot"><span>Automático (10 %) ⓘ --</span><span>Solo se admite USDT</span></div>
+</div></div>
+<script>
+(()=>{
+const $=i=>document.getElementById(i),R5=3e5,KEY="bpred_v1";
+const n=(x,d=2)=>x.toLocaleString("de-DE",{minimumFractionDigits:d,maximumFractionDigits:d});
+let S={bal:100,pos:{},closed:[],ord:[]};try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.bal!=null)S=s}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+let price=null,smp=[],tgt={},fin={},seed={},sel=null,auto=true,mode="buy",side="U",obs="U",tab="pos",flt="all";
+// precio real
+const push=(p,t)=>{price=p;const l=smp[smp.length-1];if(!l||t-l.t>=1000)smp.push({t,p});else l.p=p;if(smp.length>2600)smp.shift()};
+function ws(){let w;try{w=new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@trade")}catch(e){return}
+ w.onmessage=e=>{const d=JSON.parse(e.data);push(+d.p,d.T||Date.now());$("wn").style.display="none"};w.onclose=()=>setTimeout(ws,2000);w.onerror=()=>w.close()}
+fetch("https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=5m&limit=4").then(r=>r.json()).then(k=>k.forEach(c=>seed[c[0]]=+c[1])).catch(()=>{});
+fetch("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT").then(r=>r.json()).then(d=>{if(price==null)push(+d.price,Date.now())}).catch(()=>{});
+setTimeout(()=>{if(price==null)$("wn").style.display="block"},6000);ws();
+// modelo: probabilidad de "Sube"
+const Z=x=>{const t=1/(1+.2316419*Math.abs(x)),d=.3989423*Math.exp(-x*x/2),p=d*t*(.3193815+t*(-.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return x>0?1-p:p};
+function vol(){const v=smp.slice(-150);if(v.length<20)return 6;let s=0;for(let i=1;i<v.length;i++){const d=v[i].p-v[i-1].p;s+=d*d}return Math.max(3,Math.sqrt(s/(v.length-1)))}
+function quote(end,now){const st=end-R5;let p=.5;if(now>=st&&tgt[st]!=null&&price!=null){const tau=Math.max(1,(end-now)/1000);p=Z((price-tgt[st])/(vol()*Math.sqrt(tau)))}
+ const bid=Math.min(.98,Math.max(.01,Math.floor(p*100)/100)),ask=Math.min(.99,bid+.01);return{bid,ask}}
+const hs=(a,b)=>{let h=a*374761393+b*668265263;h=(h^h>>13)*1274126177;return((h^h>>16)>>>0)/4294967296};
+// rondas
+const fmtET=t=>new Date(t).toLocaleTimeString("en-US",{timeZone:"America/New_York",hour:"numeric",minute:"2-digit"}).replace(" ","");
+const fmtL=t=>new Date(t).toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit",hour12:true}).replace(/\s?([ap])\.?\s?m\.?/i,(m,x)=>x.toLowerCase()+".m.");
+function tick(){const now=Date.now();if(price==null)return;const cur=Math.floor(now/R5)*R5;
+ for(const st of [cur-R5,cur]){if(tgt[st]==null){if(seed[st]!=null)tgt[st]=seed[st];else if(st===cur&&now-cur<4000)tgt[st]=price}
+  const end=st+R5;if(now>=end&&fin[end]==null&&tgt[st]!=null){fin[end]=(seed[end]!=null&&!S.pos[end])?seed[end]:price;settle(end)}}
+ if(sel==null||auto)sel=cur+R5;render(now,cur)}
+function settle(end){const p=S.pos[end];if(!p||p.done)return;const st=end-R5,f=fin[end],t=tgt[st];p.done=1;
+ const up=f>t,eq=f===t,pay=(s,w)=>s*(eq?.5:w?1:0);let tot=0,cost=0;
+ ["U","D"].forEach(k=>{if(p[k]){cost+=p[k].c;tot+=pay(p[k].s,k==="U"?up:!up)}});S.bal+=tot;
+ S.closed.unshift({end,res:eq?"=":up?"Up":"Down",cost,sh:(p.U?p.U.s:0)+(p.D?p.D.s:0),pnl:tot-cost,pct:cost?(tot-cost)/cost*100:0});save()}
+// render
+function render(now,cur){const end=sel,st=end-R5,live=st<=now&&now<end,past=now>=end,fut=now<st,T=tgt[st];
+ const q=quote(end,now),pb=fut?.5:null;
+ $("fin").textContent="Finalizar: "+fmtL(end)+" "+new Date(end).toLocaleDateString("es",{day:"numeric",month:"short",year:"numeric"}).replace(/\./g,"");
+ $("ttl").textContent="Bitcoin Sube o Baja - "+new Date(st).toLocaleDateString("es",{day:"numeric",month:"short",timeZone:"America/New_York"})+", "+fmtET(st)+"-"+fmtET(end)+" ET";
+ $("tg").textContent=T!=null?n(T)+" $":"-- $";
+ const cp=past&&fin[end]!=null?fin[end]:price;$("cp").textContent=n(cp)+" $";
+ const df=T!=null?cp-T:null;$("dl").textContent=df==null?"":(df>0?"+":"")+n(df)+" $";$("dl").style.color=df>=0?"var(--g)":"var(--r)";
+ const left=Math.max(0,fut?st-now:end-now)/1000;$("cm").textContent=String(Math.floor(left/60)).padStart(2,"0");$("cs").textContent=String(Math.floor(left%60)).padStart(2,"0");
+ // chips
+ let h="";for(let i=0;i<5;i++){const e=cur+R5*(i+1);h+=`<button class="chip${e===sel?" on":""}" data-e="${e}">${e===cur+R5?"<i></i>":""}${fmtL(e).replace(/[ap]\.m\./,"")}</button>`}
+ if($("chips").dataset.h!==h){$("chips").innerHTML=h;$("chips").dataset.h=h}
+ // precios
+ const uB=q.ask,dB=+(1-q.bid).toFixed(2),uS=q.bid,dS=+(1-q.ask).toFixed(2);
+ $("ps").textContent=n(mode==="buy"?uB:uS,2);$("pj").textContent=n(mode==="buy"?dB:dS,2);
+ const px=mode==="buy"?(side==="U"?uB:dB):(side==="U"?uS:dS);
+ // libro
+ const up=obs==="U",A=[],B=[];let ca=0,cb=0;
+ for(let i=0;i<4;i++){const pa=up?q.ask+i*.01:1-q.bid+i*.01,pb2=up?q.bid-i*.01:1-q.ask-i*.01,sa=60+hs(sel/R5|0,i+(now/4e3|0))*560,sb=8+hs(sel/R5|0,i+9+(now/4e3|0))*480;
+  ca+=pa*sa;cb+=Math.max(.01,pb2)*sb;A.push([pa,sa,ca]);B.push([pb2,sb,cb])}
+ const row=(c,r)=>`<div class="rw ${c}"><span>${n(r[0],2)}</span><span>${n(r[1],2)}</span><span>${n(r[2],2)}</span></div>`;
+ $("asks").innerHTML=A.filter(r=>r[0]<=.99).reverse().map(r=>row("a",r)).join("");$("bids").innerHTML=B.filter(r=>r[0]>=.01).map(r=>row("b",r)).join("");
+ $("last").textContent=n(up?q.bid:1-q.ask);$("spr").textContent="0,01";
+ // panel
+ const p=S.pos[end]||{},have=p[side]?p[side].s:0,amv=+$("am").value||0,ok=!past&&price!=null&&amv>0;
+ $("av").textContent=mode==="buy"?n(S.bal)+" USDT":n(have);$("al").textContent=mode==="buy"?"Saldo disponible":"Acciones disponibles";
+ $("wv").textContent=amv>0?(mode==="buy"?n(amv/px,2)+" acc → "+n(amv/px)+" $":n(amv*px)+" USDT"):"--";
+ $("go").disabled=!(ok&&(mode==="buy"?amv<=S.bal+1e-9&&px<.995:amv<=have+1e-9));
+ $("go").textContent=(mode==="buy"?"Comprar ":"Vender ")+(side==="U"?"Sube":"Baja");$("go").className="go "+(mode==="buy"?"g":"r");
+ draw(now,st,end,T);tbl()}
+// gráfica escalonada
+const cv=$("cv"),cx=cv.getContext("2d");
+function draw(now,st,end,T){const dp=devicePixelRatio||1,W=cv.clientWidth,H=cv.clientHeight;if(cv.width!==W*dp){cv.width=W*dp;cv.height=H*dp}
+ cx.setTransform(dp,0,0,dp,0,0);cx.clearRect(0,0,W,H);const t1=Math.min(now,end),t0=t1-60000;let v=smp.filter(q=>q.t>=t0&&q.t<=t1+1000);if(v.length<2)return;
+ let lo=Math.min(...v.map(q=>q.p)),hi=Math.max(...v.map(q=>q.p));if(T!=null){lo=Math.min(lo,T);hi=Math.max(hi,T)}const pd=(hi-lo)*.2||5;lo-=pd;hi+=pd;
+ const X=t=>(t-t0)/60000*(W-70),Y=p=>H-22-(p-lo)/(hi-lo)*(H-34);
+ cx.font="11px 'IBM Plex Sans',Arial";cx.fillStyle="#848e9c";cx.strokeStyle="#2b3139";
+ for(let i=0;i<4;i++){const p=lo+(hi-lo)*(i+.5)/4;cx.fillText(Math.round(p),W-60,Y(p)+4)}
+ for(let i=0;i<5;i++){const t=t0+i*15000;cx.fillText(new Date(t).toLocaleTimeString("es",{hour12:false}),Math.min(X(t),W-120),H-4)}
+ if(T!=null){const y=Y(T);cx.setLineDash([2,3]);cx.strokeStyle="#848e9c";cx.beginPath();cx.moveTo(0,y);cx.lineTo(W-66,y);cx.stroke();cx.setLineDash([]);
+  cx.fillStyle="#474d57";cx.fillRect(W-66,y-10,60,20);cx.fillStyle="#eaecef";cx.fillText("Target ⌃",W-60,y+4)}
+ cx.strokeStyle="#f7931a";cx.lineWidth=2;cx.beginPath();v.forEach((q,i)=>{const x=X(q.t),y=Y(q.p);if(!i)cx.moveTo(x,y);else{cx.lineTo(x,Y(v[i-1].p));cx.lineTo(x,y)}});
+ const l=v[v.length-1];cx.lineTo(X(l.t),Y(l.p));cx.stroke();cx.fillStyle="rgba(247,147,26,.25)";cx.beginPath();cx.arc(X(l.t),Y(l.p),8,0,7);cx.fill();cx.fillStyle="#f7931a";cx.beginPath();cx.arc(X(l.t),Y(l.p),4,0,7);cx.fill()}
+// tablas
+function tbl(){const sb=$("sub");sb.style.display=tab==="cer"?"flex":"none";let h="";
+ if(tab==="pos"){const r=Object.entries(S.pos).filter(([e,p])=>!p.done);h=r.length?`<table><tr><th>Mercados</th><th>Lado</th><th>Acciones</th><th>Coste (USDT)</th><th>Valor actual</th></tr>`+r.flatMap(([e,p])=>["U","D"].filter(k=>p[k]).map(k=>{const q=quote(+e,Date.now()),v=p[k].s*(k==="U"?q.bid:1-q.ask);return`<tr><td>Bitcoin sube o baja – ${fmtL(+e-R5)}-${fmtL(+e)}</td><td class="${k==="U"?"b":"a"}">${k==="U"?"Sube":"Baja"}</td><td>${n(p[k].s)}</td><td>${n(p[k].c)}</td><td>${n(v)}</td></tr>`})).join("")+"</table>":'<div class="emp">Sin posiciones abiertas</div>'}
+ else if(tab==="cer"){let c=S.closed.filter(x=>flt==="all"||(flt==="w"&&x.pnl>0)||(flt==="l"&&x.pnl<0)||0);h=c.length?`<table><tr><th>Mercados</th><th>PnL totales</th><th>Resultado</th><th>Comprado (USDT/acc.)</th></tr>`+c.slice(0,30).map(x=>`<tr><td>Bitcoin sube o baja – ${fmtL(x.end-R5)}-${fmtL(x.end)}</td><td class="${x.pnl>=0?"b":"a"}">${x.pnl>=0?"+":""}${n(x.pnl)} $ (${n(x.pct,1)} %)</td><td>${x.res}</td><td>${n(x.cost)} $ | ${n(x.sh)}</td></tr>`).join("")+"</table>":'<div class="emp">Sin operaciones cerradas</div>'}
+ else if(tab==="his"){h=S.ord.length?`<table><tr><th>Hora</th><th>Tipo</th><th>Lado</th><th>Acciones</th><th>Precio</th><th>Importe</th></tr>`+S.ord.slice(0,30).map(o=>`<tr><td>${new Date(o.t).toLocaleTimeString("es",{hour12:false})}</td><td class="${o.k==="C"?"b":"a"}">${o.k==="C"?"Comprar":"Vender"}</td><td>${o.s==="U"?"Sube":"Baja"}</td><td>${n(o.sh)}</td><td>${n(o.p)}</td><td>${n(o.a)}</td></tr>`).join("")+"</table>":'<div class="emp">Sin órdenes</div>'}
+ else h='<div class="emp">Sin datos</div>';if($("tb").dataset.h!==h){$("tb").innerHTML=h;$("tb").dataset.h=h}}
+// eventos
+$("chips").onclick=e=>{const b=e.target.closest("[data-e]");if(b){sel=+b.dataset.e;auto=sel===Math.floor(Date.now()/R5)*R5+R5}};
+$("past").onclick=()=>{auto=false;sel=Math.floor(Date.now()/R5)*R5};
+$("tabs").onclick=e=>{const b=e.target.closest("[data-t]");if(!b)return;tab=b.dataset.t;[...$("tabs").children].forEach(x=>x.classList.toggle("on",x===b))};
+$("sub").onclick=e=>{const b=e.target.closest("[data-f]");if(!b)return;flt=b.dataset.f;[...$("sub").children].forEach(x=>x.classList.toggle("on",x===b))};
+const setSide=s=>{side=s;$("osu2").classList.toggle("on",s==="U");$("oba2").classList.toggle("on",s==="D")};
+$("osu2").onclick=()=>setSide("U");$("oba2").onclick=()=>setSide("D");
+$("osu").onclick=()=>{obs="U";$("osu").className="on";$("oba").className=""};$("oba").onclick=()=>{obs="D";$("oba").className="on";$("osu").className=""};
+function setMode(m){mode=m;$("bb").classList.toggle("on",m==="buy");$("bsl").classList.toggle("on",m==="sell");$("am").value="";
+ $("il").textContent=m==="buy"?"Importe en USDT":"Acciones";$("wl").textContent=m==="buy"?"Para ganar":"Recibirás";
+ $("qk").innerHTML=(m==="buy"?["$1","$3","$10","Máx."]:["10%","25%","50%","Máx."]).map(x=>`<button>${x}</button>`).join("")}
+$("bb").onclick=()=>setMode("buy");$("bsl").onclick=()=>setMode("sell");setMode("buy");
+$("qk").onclick=e=>{const b=e.target.closest("button");if(!b)return;const t=b.textContent,p=(S.pos[sel]||{})[side];
+ if(mode==="buy")$("am").value=t==="Máx."?Math.floor(S.bal*100)/100:t.slice(1);else{const s=p?p.s:0;$("am").value=t==="Máx."?s:Math.floor(s*parseInt(t)/100*100)/100}};
+$("go").onclick=()=>{const now=Date.now(),end=sel,q=quote(end,now),a=+$("am").value;if(!(a>0)||now>=end)return;
+ const px=mode==="buy"?(side==="U"?q.ask:+(1-q.bid).toFixed(2)):(side==="U"?q.bid:+(1-q.ask).toFixed(2));const p=S.pos[end]=S.pos[end]||{};
+ if(mode==="buy"){if(a>S.bal)return;const sh=a/px;p[side]=p[side]||{s:0,c:0};p[side].s+=sh;p[side].c+=a;S.bal-=a;S.ord.unshift({t:now,k:"C",s:side,sh,p:px,a})}
+ else{const h=p[side];if(!h||a>h.s+1e-9)return;const c=h.c*a/h.s;h.s-=a;h.c-=c;S.bal+=a*px;S.ord.unshift({t:now,k:"V",s:side,sh:a,p:px,a:a*px})}
+ $("am").value="";save();$("tb").dataset.h=""};
+$("rst").onclick=()=>{if(confirm("¿Reiniciar saldo a 100 USDT y borrar historial?")){S={bal:100,pos:{},closed:[],ord:[]};save()}};
+setInterval(tick,250);
+})();
+</script></body></html>
